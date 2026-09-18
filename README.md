@@ -62,6 +62,8 @@ A few design decisions:
 
 ## Representative technical artifacts
 
+- [Case study](docs/case-study.md) — problem, workflow and representative engineering decisions
+- [Data model](docs/data-model.md) — simplified relational model and invariants
 - [Engineering notes](docs/engineering-notes.md) — examples of cross-layer decisions and debugging
 - [Architecture](docs/architecture.md)
 - [Security & privacy](docs/security.md)
