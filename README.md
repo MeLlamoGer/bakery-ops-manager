@@ -7,6 +7,16 @@ The original system replaced manual order tracking with a shared workflow for sa
 > **Why the production repository is not public**
 > The original codebase was created for a real paying client and historically contained customer data, commercial pricing, client branding and deployment-specific configuration. This repository intentionally publishes only anonymized documentation and representative technical artifacts.
 
+## Review in 30 seconds
+
+If you're reviewing this as a portfolio project, start here:
+
+1. **[Case study](docs/case-study.md)** — the client workflow, my contribution and the main engineering decisions.
+2. **[Data model](docs/data-model.md)** — why historical prices, payments and reservations are modeled the way they are.
+3. **[Engineering notes](docs/engineering-notes.md)** — examples of debugging and cross-layer tradeoffs from real use.
+4. **[RLS hardening](examples/rls-hardening.sql)** — representative role-based database authorization.
+5. **[Order-total trigger](examples/order-total-trigger.sql)** and **[payment ledger](examples/payment-ledger.sql)** — database-owned operational invariants.
+
 ## What I worked on
 
 My work included:
@@ -16,6 +26,8 @@ My work included:
 - structuring operational data and order workflows;
 - automating work that had previously been tracked manually;
 - iterating on the delivered system after real-world use and client feedback.
+
+This was a **collaborative client project**, not a solo build. The public case study is written to describe my contribution without claiming exclusive authorship of the private production code.
 
 ## Stack
 
@@ -73,9 +85,11 @@ A few design decisions:
 - [Role-based RLS hardening](examples/rls-hardening.sql)
 - [Synthetic demo data](examples/demo_seed.sql)
 
-## Privacy
+## Privacy and ownership
 
 No real customer records, phone numbers, addresses, client branding, production credentials or business-specific pricing are published here.
+
+The original application and private source remain outside this repository. See [NOTICE.md](NOTICE.md) for the portfolio/ownership boundary.
 
 ## Status
 
