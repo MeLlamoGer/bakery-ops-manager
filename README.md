@@ -1,35 +1,43 @@
 # BakeryOps — Order & Production Management
 
-An anonymized portfolio edition of a production web application built collaboratively for a real artisan-bakery client. The original system replaced manual order tracking with a shared workflow for sales, kitchen production, payments, reservations and operational reporting.
+A privacy-safe portfolio case study derived from a production web application built collaboratively for a real artisan-bakery client.
 
-> **Privacy note**
-> Real customer records, phone numbers, addresses, commercial pricing and client branding were removed from this public edition. All demo records in this repository are synthetic.
+The original system replaced manual order tracking with a shared workflow for sales, kitchen production, payments, reservations and operational reporting.
 
-## Why this project matters
+> **Why the full production repository is not public**
+> The original codebase was created for a real paying client and historically contained customer data, commercial pricing, client branding and deployment-specific configuration. This public repository intentionally contains only an anonymized case study plus representative technical artifacts.
 
-This was not a tutorial project. It was designed around a real operational workflow and used to coordinate orders between sales and production. The project required translating non-technical requirements into a data model, building the application end-to-end, and iterating on the system as the workflow evolved.
+## What I worked on
+
+My work included:
+- translating non-technical client needs into technical requirements;
+- developing and maintaining the application with the team;
+- structuring operational data and order workflows;
+- automating work that had previously been tracked manually;
+- iterating on the delivered system after real-world use and client feedback.
 
 ## Stack
 
-- **Next.js / React / TypeScript** — App Router UI and server components
-- **Supabase / PostgreSQL** — database, authentication and realtime updates
-- **Row Level Security** — database-level access controls
-- **Tailwind CSS** — responsive UI
-- **date-fns / Lucide** — scheduling and interface utilities
+- Next.js / React / TypeScript
+- Supabase Auth + PostgreSQL
+- Row Level Security (RLS)
+- Supabase Realtime
+- Tailwind CSS
 
-## Core functionality
+## Product scope
 
-- Order lifecycle management and order-number tracking
-- Customer and product management
-- Reservations that can be converted into orders
-- Partial/full payment history
-- Product bundles and discounts
-- Daily/weekly production planning
-- Calendar views
-- Expense and revenue summaries
-- Realtime updates between users
-- Role-aware profiles (`admin`, `ventas`, `cocina`)
-- Printable order and production views
+The production system included:
+- customer and product management;
+- order lifecycle and order-number tracking;
+- reservations convertible into orders;
+- partial/full payment history;
+- bundles, discounts and shipping costs;
+- daily/weekly production planning;
+- calendar views;
+- expense/revenue summaries;
+- realtime operational updates;
+- role-aware access for administration, sales and kitchen users;
+- printable order and production views.
 
 ## Architecture
 
@@ -38,42 +46,28 @@ flowchart LR
     U[Sales / Kitchen users] --> N[Next.js application]
     N --> A[Supabase Auth]
     N --> P[(PostgreSQL)]
-    P --> R[Realtime subscriptions]
+    P --> R[Realtime]
     R --> N
-    P --> V[Production / reporting views]
+    P --> V[Operational views / reports]
 ```
 
-The database keeps order-item price snapshots so historical orders remain stable even when catalog prices change. Database triggers maintain derived totals, and realtime subscriptions refresh order/production views when operational data changes.
+A few design decisions:
+- order items keep a price snapshot so old orders do not change when the catalog changes;
+- database triggers maintain derived order totals;
+- realtime subscriptions synchronize operational views;
+- authorization is enforced at the database layer with RLS rather than relying only on UI checks.
 
-## Security & anonymization
+See [Architecture](docs/architecture.md) and [Security & privacy](docs/security.md).
 
-The original project contained production data that must never be public. This portfolio edition therefore:
+## Public artifacts
 
-- removes all real customer seed data;
-- replaces business-specific products/prices with synthetic demo data;
-- removes client logos and email-domain assumptions;
-- moves Turnstile configuration to environment variables;
-- adds a hardening migration that prevents self-assigned role escalation and enforces role-based RLS.
+This repository contains representative, sanitized technical material:
+- [synthetic demo data](examples/demo_seed.sql);
+- [role-based RLS hardening](examples/rls-hardening.sql);
+- architecture/security documentation.
 
-## Local setup
+No real customer records, phone numbers, addresses, client branding, production credentials or business-specific pricing are published here.
 
-1. Create a Supabase project.
-2. Apply the SQL files in `supabase/migrations/` in numeric order.
-3. Optionally apply `supabase/demo_seed.sql`.
-4. Copy `.env.example` to `.env.local` and fill in the public Supabase URL/anon key.
-5. Install and run:
+## Status
 
-```bash
-npm install
-npm run dev
-```
-
-Open `http://localhost:3000`. Create users from Supabase Auth and assign their profile role from the database/admin tooling.
-
-## Repository scope
-
-This repository is a **sanitized portfolio snapshot** of a collaborative client project. It intentionally omits production credentials, real customer data, private client assets and business-specific datasets.
-
-## What I worked on
-
-My work on the project included translating client needs into technical requirements, developing and maintaining the application, structuring operational data, automating previously manual workflows, and iterating on the delivered system with the team and client.
+The client system itself is a real delivered application. This repository is **not intended to be a deployable copy of the client's production system**; it is a deliberately limited engineering case study.

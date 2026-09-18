@@ -1,5 +1,4 @@
--- Synthetic demo data only.
--- No production customer information or client pricing is included in this repository.
+-- Synthetic portfolio data. No client/customer data appears here.
 
 INSERT INTO customers (name, phone, address, neighborhood, notes) VALUES
   ('Cliente Demo Uno', '099000001', 'Calle Demo 101', 'Centro', 'Datos sintéticos'),
