@@ -1,0 +1,39 @@
+name: One-time portfolio import
+
+on:
+  push:
+    paths:
+      - ".import/READY"
+
+permissions:
+  contents: write
+
+jobs:
+  import:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Reconstruct sanitized source
+        shell: bash
+        run: |
+          set -euo pipefail
+          cat .import/part-* | tr -d '\n' | base64 -d > /tmp/repo.tar.xz
+          mkdir -p /tmp/import
+          tar -xJf /tmp/repo.tar.xz -C /tmp/import
+          root="$(find /tmp/import -mindepth 1 -maxdepth 1 -type d | head -n 1)"
+          test -n "$root"
+          find . -mindepth 1 -maxdepth 1 ! -name .git ! -name .import ! -name .github -exec rm -rf {} +
+          cp -a "$root"/. .
+          rm -rf .import
+          rm -f .github/workflows/import.yml
+      - name: Commit imported source
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "chore: import sanitized portfolio source"
+          git push
